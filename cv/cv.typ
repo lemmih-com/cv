@@ -11,7 +11,13 @@
   footer-descent: -page-style.margin.bottom,
 )
 
-#table(stroke: none, align: left + horizon, column-gutter: 45pt, inset: 0pt, columns: 2, {
+#table(
+  stroke: none,
+  align: left + horizon,
+  column-gutter: 45pt,
+  inset: 0pt,
+  columns: 2,
+  {
     text(
       bottom-edge: "bounds",
       // stroke: white,
@@ -36,7 +42,8 @@
   },
   {
     image("media/avatar.png", width: 100pt)
-  })
+  },
+)
 
 #v(0.5cm)
 
@@ -45,11 +52,19 @@
 #section("Work experience")
 
 #experience(
+  "Dune",
+  "Software Engineer",
+  "Remote",
+  "September 2025 - Present",
+  "Joined the API team, building crypto infrastructure using Rust and kubernetes.",
+)
+
+#experience(
   "ChainSafe",
   "Protocol Engineer",
   "Remote",
   "January 2022 - March 2025",
-  "Lead developer of an in-house Filecoin client. Part of the global Core Devs team, reviewing and proposing protocol changes. Designed new file format that became the default for sharing blocks."
+  "Lead developer of an in-house Filecoin client. Part of the global Core Devs team, reviewing and proposing protocol changes. Designed new file format that became the default for sharing blocks.",
 )
 
 #experience(
@@ -57,7 +72,7 @@
   "Quantitative Developer",
   "Singapore",
   "May 2019 - December 2020",
-  "Joined the DevOps team, responsible for managing on-premise services supporting a team of twenty developers. Implemented automated regression testing of a custom pricing platform."
+  "Joined the DevOps team, responsible for managing on-premise services supporting a team of twenty developers. Implemented automated regression testing of a custom pricing platform.",
 )
 
 #experience(
@@ -65,7 +80,7 @@
   "Software Engineer",
   "Remote",
   "November 2016 - September 2017",
-  "Worked on a parallel scheduling system for spreadsheets with support for multiple programming languages. Written in Haskell, and deployed with Nix."
+  "Worked on a parallel scheduling system for spreadsheets with support for multiple programming languages. Written in Haskell, and deployed with Nix.",
 )
 
 #experience(
@@ -88,51 +103,51 @@
 
 Graduated in 2019 with a #text(weight: "bold", "BSc") in #text(weight: "bold", "Computer Science") from the #text(weight: "bold", "University of Copenhagen"). Partial credits towards a MSc.
 
-#colbreak()
+// #colbreak()
 
 #section("Public projects")
 
 #project(
   "criterion",
   "https://github.com/bheisler/criterion.rs",
-  "Statistics-driven benchmarking library for Rust. Has multiple built-in statistical approaches, as well as dedicated WASM support."
+  "Statistics-driven benchmarking library for Rust. Has multiple built-in statistical approaches, as well as dedicated WASM support.",
 )
 
 
 #project(
   "rgeometry",
   "https://rgeometry.org",
-  "Algorithms and data structures for computational geometry in Rust. The most comprehensively tested geometry library in existence."
+  "Algorithms and data structures for computational geometry in Rust. The most comprehensively tested geometry library in existence.",
 )
 
 #project(
   "Reanimate",
   "https://github.com/lemmih/reanimate",
-  "Batteries-included library for expressing illustrations and animations as Haskell code. Inspired by 3b1b's manim library."
+  "Batteries-included library for expressing illustrations and animations as Haskell code. Inspired by 3b1b's manim library.",
 )
 
 #project(
   "LHC",
   "https://github.com/lemmih/lhc",
-  "The LLVM Haskell Compiler is a toy project for exploring the intricacies of the Haskell programming language."
+  "The LLVM Haskell Compiler is a toy project for exploring the intricacies of the Haskell programming language.",
 )
 
-#project(
-  "haskell-suite",
-  "https://github.com/haskell-suite",
-  "Toolchest of Haskell libraries for introspection: parsing, scope analysis, name resolution, type inference, etc."
-)
+// #project(
+//   "haskell-suite",
+//   "https://github.com/haskell-suite",
+//   "Toolchest of Haskell libraries for introspection: parsing, scope analysis, name resolution, type inference, etc.",
+// )
 
 #project(
   "cabal-install",
   "https://www.haskell.org/cabal/",
-  "Co-founded in 2005 with Isaac Jones, cabal-install has become a key part of the Haskell ecosystem. It is still maintained to this day."
+  "Co-founded in 2005 with Isaac Jones, cabal-install has become a key part of the Haskell ecosystem. It is still maintained to this day.",
 )
 
 #project(
   "acid-state",
   "https://github.com/acid-state/acid-state",
-  "Acid-state is a tool for rapid prototyping, adding persistence and ACID guarantees to any Haskell structure without the need for a database."
+  "Acid-state is a tool for rapid prototyping, adding persistence and ACID guarantees to any Haskell structure without the need for a database.",
 )
 
 #section("Approach to engineering")
