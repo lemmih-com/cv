@@ -108,6 +108,12 @@ Graduated in 2019 with a #text(weight: "bold", "BSc") in #text(weight: "bold", "
 #section("Public projects")
 
 #project(
+  "AI Haskell Compiler",
+  "https://github.com/ai-haskell-compiler/aihc",
+  "Vibe-coded Haskell compiler with a focus on reusability. Designed by me but entirely written with AI coding agents.",
+)
+
+#project(
   "criterion",
   "https://github.com/bheisler/criterion.rs",
   "Statistics-driven benchmarking library for Rust. Has multiple built-in statistical approaches, as well as dedicated WASM support.",
@@ -124,12 +130,6 @@ Graduated in 2019 with a #text(weight: "bold", "BSc") in #text(weight: "bold", "
   "Reanimate",
   "https://github.com/lemmih/reanimate",
   "Batteries-included library for expressing illustrations and animations as Haskell code. Inspired by 3b1b's manim library.",
-)
-
-#project(
-  "LHC",
-  "https://github.com/lemmih/lhc",
-  "The LLVM Haskell Compiler is a toy project for exploring the intricacies of the Haskell programming language.",
 )
 
 // #project(
