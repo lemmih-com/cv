@@ -55,8 +55,8 @@
   "Dune",
   "Software Engineer",
   "Remote",
-  "September 2025 - Present",
-  "Joined the API team, building crypto infrastructure using Rust and kubernetes.",
+  "September 2025 - May 2026",
+  "Joined the API team, building crypto infrastructure using Rust and kubernetes, with a focus on transitioning the team to AI tools.",
 )
 
 #experience(
