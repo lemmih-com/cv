@@ -7,7 +7,7 @@
 #set page(
   paper: page-style.paper,
   margin: page-style.margin,
-  footer: align(right, "2025-06-21"),
+  footer: align(right, "2026-06-01"),
   footer-descent: -page-style.margin.bottom,
 )
 
