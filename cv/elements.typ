@@ -1,89 +1,225 @@
 #import "@preview/fontawesome:0.5.0": *
 #import "style.typ": *
 
-#let hline() = [
-  #box(width: 1fr, line(stroke: 0.9pt, length: 100%))
-]
+// ---------- Small building blocks ----------
 
-#let hline-header() = [
-  #box(width: 1fr, line(stroke: 0.9pt + colors.header, length: 100%))
-]
-
-#let github(handle) = {
-  fa-github(fill: colors.accent)
-  h(1pt)
-  text(
-    size: body-style.size,
-    link("https://github.com/" + handle, handle),
-  )
+#let icon-text(icon, body, fill: colors.accent) = {
+  box(icon(fill: fill))
+  h(3pt)
+  body
 }
 
-#let email(address) = {
-  fa-envelope(fill: colors.accent)
-  h(1pt)
-  text(
-    size: body-style.size,
-    link("mailto:" + address, address),
-  )
+// Rounded "pill" used for technology tags.
+#let tag(body) = box(
+  fill: colors.accent-light,
+  inset: (x: 5pt, y: 2.5pt),
+  radius: 3pt,
+  baseline: 2.5pt,
+  text(size: 7.5pt, fill: colors.navy, weight: "bold", body),
+)
+
+#let tags(..items) = {
+  for item in items.pos() {
+    tag(item)
+    h(3pt)
+  }
 }
 
-#let website(url) = {
-  fa-globe(fill: colors.accent)
-  h(1pt)
-  text(
-    size: body-style.size,
-    link("https://" + url, url),
-  )
+// Section heading: icon, small-caps title, rule.
+#let section(title, icon: none) = {
+  v(4pt)
+  block(breakable: false, {
+    if icon != none {
+      box(icon(fill: colors.accent, size: 11pt))
+      h(5pt)
+    }
+    text(size: 13.5pt, fill: colors.navy, weight: "bold", smallcaps(title))
+    v(-4pt)
+    line(length: 100%, stroke: 1.2pt + colors.navy)
+  })
+  v(5pt)
 }
 
-#let location(city, country) = {
-  fa-map-marker-alt(fill: colors.accent)
-  h(1pt)
-  text(
-    size: body-style.size,
-    city + ", " + country,
-  )
-}
-
-#let calendar(date) = {
-  fa-calendar-alt(fill: colors.accent)
-  h(1pt)
-  text(
-    size: body-style.size,
-    weight: "regular",
-    date,
-  )
-}
-
-#let section(title) = {
+// Lighter heading used inside the sidebar.
+#let side-heading(title, icon: none) = {
+  v(2pt)
+  block(breakable: false, {
+    if icon != none {
+      box(icon(fill: colors.accent, size: 9.5pt))
+      h(4pt)
+    }
+    text(size: 11pt, fill: colors.navy, weight: "bold", smallcaps(title))
+    v(-5pt)
+    line(length: 100%, stroke: 0.7pt + colors.card-stroke)
+  })
   v(3pt)
-  text(size: 15pt, fill: colors.header, smallcaps(title))
-  hline-header()
 }
 
-#let experience(company, title, location, date, body) = {
-  stack(
-    dir: ttb,
-    spacing: 5pt,
-    align(right, date),
-    {
-      text(size: 10pt, weight: "bold", company)
-      text(size: 10pt, " - ")
-      text(size: 10pt, location)
-    },
-    text(size: 16pt, style: "italic", title),
-    v(12pt),
-    text(size: body-style.size, hyphenate: true, body),
-  )
-  v(10pt)
+// ---------- Header ----------
+
+#let contact-row(..items) = {
+  set text(fill: colors.on-navy, size: 9.5pt)
+  stack(dir: ltr, spacing: 12pt, ..items.pos())
 }
 
-#let project(title, href, body) = {
-  stack(
-    dir: ttb,
-    spacing: 10pt,
-    link(href, text(size: 16pt, style: "italic", title)),
-    pad(x: 0pt,text(size: body-style.size, body)),
+#let github(handle) = icon-text(fa-github, link("https://github.com/" + handle, handle), fill: colors.on-navy-muted)
+#let email(address) = icon-text(fa-envelope, link("mailto:" + address, address), fill: colors.on-navy-muted)
+#let website(url) = icon-text(fa-globe, link("https://" + url, url), fill: colors.on-navy-muted)
+#let location(city, country) = icon-text(fa-location-dot, city + ", " + country, fill: colors.on-navy-muted)
+
+#let header(name, title, tagline, contacts, avatar) = {
+  // Bleed past the page margins so the band spans the full page width.
+  pad(
+    left: -page-style.margin.left,
+    right: -page-style.margin.right,
+    top: -page-style.margin.top,
+    block(
+      width: 100%,
+      fill: colors.navy,
+      inset: (
+        left: page-style.margin.left,
+        right: page-style.margin.right,
+        top: page-style.margin.top + 2pt,
+        bottom: 12pt,
+      ),
+      {
+        set text(fill: colors.on-navy, hyphenate: false)
+        set par(justify: false)
+        grid(
+          columns: (1fr, auto),
+          column-gutter: 20pt,
+          align: horizon,
+          {
+            text(size: header-style.full-name.size, weight: header-style.full-name.weight, name)
+            v(-9pt)
+            text(size: header-style.title.size, fill: colors.on-navy-muted, title)
+            v(-2pt)
+            text(size: 9.5pt, fill: colors.on-navy, style: "italic", tagline)
+            v(3pt)
+            contacts
+          },
+          box(
+            clip: true,
+            radius: 50%,
+            stroke: 2.5pt + colors.on-navy,
+            avatar,
+          ),
+        )
+      },
+    ),
   )
-  v(10pt)
+}
+
+// ---------- Highlight tiles ----------
+
+#let stat(number, label) = box(
+  width: 100%,
+  fill: colors.card,
+  stroke: 0.6pt + colors.card-stroke,
+  radius: 4pt,
+  inset: (x: 5pt, y: 6pt),
+  align(center, {
+    set par(justify: false)
+    set text(hyphenate: false)
+    text(size: 14pt, weight: "bold", fill: colors.navy, number)
+    v(-4pt)
+    text(size: 7.2pt, fill: colors.muted, label)
+  }),
+)
+
+// ---------- Work experience ----------
+
+#let experience(
+  company,
+  title,
+  location,
+  date,
+  blurb,
+  bullets,
+  tech: (),
+) = {
+  block(breakable: false, {
+    grid(
+      columns: (1fr, auto),
+      align: (left + bottom, right + bottom),
+      text(size: 11pt, weight: "bold", fill: colors.navy, title),
+      text(size: 8.5pt, fill: colors.muted, icon-text(fa-calendar, date, fill: colors.muted)),
+    )
+    v(-4pt)
+    text(size: 9pt, weight: "bold", fill: colors.accent, company)
+    text(size: 9pt, fill: colors.muted, [ · ] + location)
+    if blurb != none {
+      text(size: 8.5pt, fill: colors.muted, style: "italic", [ — ] + blurb)
+    }
+    v(1pt)
+    set text(size: 9pt)
+    set par(justify: false)
+    list(indent: 2pt, body-indent: 5pt, spacing: 2.5pt, marker: text(fill: colors.accent, "▸"), ..bullets)
+    if tech.len() > 0 {
+      v(2pt)
+      tags(..tech)
+    }
+  })
+  v(4pt)
+}
+
+// ---------- Projects ----------
+
+// A project card. `height: auto` sizes to content; a fixed height pins the
+// tag row to the bottom so cards in the same row line up.
+#let project-card(title, href, role, summary, details, tech: (), height: auto) = block(
+  width: 100%,
+  height: height,
+  fill: colors.card,
+  stroke: 0.6pt + colors.card-stroke,
+  radius: 5pt,
+  inset: 9pt,
+  breakable: false,
+  {
+    let body = {
+      grid(
+        columns: (1fr, auto),
+        align: (left + bottom, right + bottom),
+        link(href, text(size: 13pt, weight: "bold", fill: colors.navy, title)),
+        text(size: 8pt, fill: colors.muted, role),
+      )
+      v(-3pt)
+      text(size: 9pt, fill: colors.accent, style: "italic", summary)
+      v(3pt)
+      text(size: 8.8pt, fill: colors.ink, details)
+    }
+    if height == auto {
+      // Natural flow, so the card can be measured.
+      body
+      v(5pt)
+      tags(..tech)
+    } else {
+      // Fixed height: push the tag row to the bottom.
+      grid(rows: (1fr, auto), row-gutter: 5pt, body, tags(..tech))
+    }
+  },
+)
+
+// Capture a card's arguments; `project-grid` renders them.
+#let project(..args) = args
+
+// Lay cards out in rows of `columns`, giving every card in a row the height
+// of the tallest one. `width` is the total width available to the grid.
+#let project-grid(width: 100%, columns: 2, gutter: 12pt, row-gutter: 9pt, ..cards) = context {
+  let cards = cards.pos()
+  let col-width = (width - gutter * (columns - 1)) / columns
+  let rows = range(0, cards.len(), step: columns).map(i => cards.slice(i, calc.min(i + columns, cards.len())))
+  let cells = ()
+  for row in rows {
+    let h = calc.max(..row.map(c => measure(block(width: col-width, project-card(..c))).height))
+    for c in row {
+      cells.push(project-card(..c, height: h))
+    }
+  }
+  grid(
+    columns: columns,
+    column-gutter: gutter,
+    row-gutter: row-gutter,
+    ..cells,
+  )
 }
