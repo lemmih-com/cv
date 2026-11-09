@@ -163,10 +163,8 @@
 ]
 #v(8pt)
 
-#grid(
-  columns: (1fr, 1fr),
-  column-gutter: 12pt,
-  row-gutter: 9pt,
+#project-grid(
+  width: 21cm - page-style.margin.left - page-style.margin.right,
 
   project(
     "AI Haskell Compiler", "https://github.com/ai-haskell-compiler/aihc",
@@ -231,7 +229,7 @@
       developer uses. Two decades later it is still actively maintained and remains a cornerstone
       of the ecosystem.
     ],
-    tech: ("Haskell", "Package management", "Dependency resolution"),
+    tech: ("Haskell", "CLI", "Dev tooling", "Package management", "Dependency resolution"),
   ),
 
   project(

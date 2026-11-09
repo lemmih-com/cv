@@ -165,25 +165,61 @@
 
 // ---------- Projects ----------
 
-#let project(title, href, role, summary, details, tech: ()) = block(
+// A project card. `height: auto` sizes to content; a fixed height pins the
+// tag row to the bottom so cards in the same row line up.
+#let project-card(title, href, role, summary, details, tech: (), height: auto) = block(
   width: 100%,
+  height: height,
   fill: colors.card,
   stroke: 0.6pt + colors.card-stroke,
   radius: 5pt,
   inset: 9pt,
   breakable: false,
   {
-    grid(
-      columns: (1fr, auto),
-      align: (left + bottom, right + bottom),
-      link(href, text(size: 13pt, weight: "bold", fill: colors.navy, title)),
-      text(size: 8pt, fill: colors.muted, role),
-    )
-    v(-3pt)
-    text(size: 9pt, fill: colors.accent, style: "italic", summary)
-    v(3pt)
-    text(size: 8.8pt, fill: colors.ink, details)
-    v(5pt)
-    tags(..tech)
+    let body = {
+      grid(
+        columns: (1fr, auto),
+        align: (left + bottom, right + bottom),
+        link(href, text(size: 13pt, weight: "bold", fill: colors.navy, title)),
+        text(size: 8pt, fill: colors.muted, role),
+      )
+      v(-3pt)
+      text(size: 9pt, fill: colors.accent, style: "italic", summary)
+      v(3pt)
+      text(size: 8.8pt, fill: colors.ink, details)
+    }
+    if height == auto {
+      // Natural flow, so the card can be measured.
+      body
+      v(5pt)
+      tags(..tech)
+    } else {
+      // Fixed height: push the tag row to the bottom.
+      grid(rows: (1fr, auto), row-gutter: 5pt, body, tags(..tech))
+    }
   },
 )
+
+// Capture a card's arguments; `project-grid` renders them.
+#let project(..args) = args
+
+// Lay cards out in rows of `columns`, giving every card in a row the height
+// of the tallest one. `width` is the total width available to the grid.
+#let project-grid(width: 100%, columns: 2, gutter: 12pt, row-gutter: 9pt, ..cards) = context {
+  let cards = cards.pos()
+  let col-width = (width - gutter * (columns - 1)) / columns
+  let rows = range(0, cards.len(), step: columns).map(i => cards.slice(i, calc.min(i + columns, cards.len())))
+  let cells = ()
+  for row in rows {
+    let h = calc.max(..row.map(c => measure(block(width: col-width, project-card(..c))).height))
+    for c in row {
+      cells.push(project-card(..c, height: h))
+    }
+  }
+  grid(
+    columns: columns,
+    column-gutter: gutter,
+    row-gutter: row-gutter,
+    ..cells,
+  )
+}
